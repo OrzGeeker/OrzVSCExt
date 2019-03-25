@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+#-*- coding: utf-8 -*-
+
+requirements=(node git)
+
+for requirement in ${requirements[*]}
+do
+	which $requirement >/dev/null 2>&1
+	if [ $? -ne 0 ];
+	then
+		echo $requirement should be installed
+		exit 1
+	fi
+done
+
+npm install -g yo generator-code
+yo code\
+	--extensionType command-ts\
+	--extensionName HelloWorld\
+	--extensionDescription \
+	--extensionDisplayName \
+
+cd HelloWorld >/dev/null 2>&1  && code .
+

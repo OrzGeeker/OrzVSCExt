@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
 #-*- coding: utf-8 -*-
 
-requirements=(node git)
+
+PROJ_NAME=HelloWorld
+if [ -n "$1" ];
+then
+	PROJ_NAME="$1"
+fi
+
+requirements=(node npm git)
 
 for requirement in ${requirements[*]}
 do
@@ -13,12 +20,18 @@ do
 	fi
 done
 
-npm install -g yo generator-code
+npms=(yo generator-code)
+
+for p in ${npms[*]}
+do
+	npm ls -g $p || npm install -g $p
+done
+
 yo code\
 	--extensionType command-ts\
-	--extensionName HelloWorld\
+	--extensionName $PROJ_NAME\
 	--extensionDescription \
 	--extensionDisplayName \
 
-cd HelloWorld >/dev/null 2>&1  && code .
+cd $PROJ_NAME >/dev/null 2>&1  && code .
 
